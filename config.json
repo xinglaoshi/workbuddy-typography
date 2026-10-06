@@ -1,0 +1,36 @@
+{
+  "_说明": "WorkBuddy 排版插件配置。推荐用 settings.html 可视化设置，改完自动生效。",
+  "_关于": "只改字体。字号/行距默认交回 WorkBuddy 官方设置，避免与软件自身的缩放冲突。",
+
+  "enabled": true,
+  "overrideSize": false,
+
+  "font": {
+    "_说明": "fontFamily 必须是字体内部家族名（不是 Windows 注册表中文名）。用 settings.html 下拉选择不会出错。",
+    "fontFamily": "LXGW WenKai",
+    "fontFamilyMono": "Consolas",
+    "fontWeight": 400,
+    "fontWeightBold": 700
+  },
+
+  "size": {
+    "_说明": "仅 overrideSize=true 时生效。",
+    "bodyPx": 17,
+    "lineHeight": 1.9,
+    "letterSpacingEm": 0.01,
+    "headingScale": 1.28
+  },
+
+  "scope": {
+    "_说明": "各区域开关。关掉某项则该区域保持官方默认。",
+    "markdown": true,
+    "userBubble": true,
+    "codeBlock": true,
+    "inlineCode": true,
+    "heading": true,
+    "quote": true,
+    "table": true,
+    "inputBox": true,
+    "uiLabel": false
+  }
+}

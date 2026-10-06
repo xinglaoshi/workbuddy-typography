@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>WorkBuddy 字体设置</title>
+<style>
+  :root {
+    --bg: #F9F5ED;
+    --card: #FFFCF5;
+    --card-2: #F4EEE2;
+    --line: #E5DDCA;
+    --text: #5C3C2A;
+    --text-strong: #4A3224;
+    --text-dim: #8B7355;
+    --accent: #8F4E1B;
+    --accent-soft: #8F4E1B1A;
+    --ok: #4A7C3F;
+    --warn: #B4701A;
+    --err: #A33A2A;
+  }
+  * { box-sizing: border-box; }
+  html, body {
+    margin: 0; padding: 0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: "PingFang SC", "Microsoft YaHei", "Segoe UI", sans-serif;
+    font-size: 14px;
+    line-height: 1.7;
+  }
+  .wrap { max-width: 820px; margin: 0 auto; padding: 40px 24px 80px; }
+
+  h1 {
+    font-size: 24px; font-weight: 700; color: var(--text-strong);
+    margin: 0 0 6px; letter-spacing: .01em;
+  }
+  .sub { color: var(--text-dim); font-size: 13px; margin-bottom: 32px; }
+
+  .card {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    padding: 24px;
+    margin-bottom: 20px;
+  }
+  .card h2 {
+    font-size: 15px; font-weight: 700; color: var(--text-strong);
+    margin: 0 0 18px; display: flex; align-items: center; gap: 8px;
+  }
+  .card h2 .tag {
+    font-size: 11px; font-weight: 400; color: var(--accent);
+    background: var(--accent-soft); padding: 2px 8px; border-radius: 4px;
+  }
+
+  label.field { display: block; margin-bottom: 18px; }
+  label.field:last-child { margin-bottom: 0; }
+  .lbl { display: block; font-size: 13px; font-weight: 600; color: var(--text-strong); margin-bottom: 6px; }
+  .hint { display: block; font-size: 12px; color: var(--text-dim); margin-top: 5px; line-height: 1.6; }
+
+  select, input[type="text"], input[type="number"] {
+    width: 100%; padding: 9px 11px;
+    background: #fff; color: var(--text);
+    border: 1px solid var(--line); border-radius: 8px;
+    font-family: inherit; font-size: 14px; line-height: 1.5;
+    outline: none; transition: border-color .15s, box-shadow .15s;
+  }
+  select:focus, input:focus {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px var(--accent-soft);
+  }
+  input[type="text"].mono { font-family: Consolas, "Courier New", monospace; font-size: 13px; }
+
+  /* 预览区 */
+  .preview {
+    background: #fff; border: 1px solid var(--line); border-radius: 10px;
+    padding: 20px 22px; margin-top: 6px;
+  }
+  .preview .pv-label {
+    font-size: 11px; color: var(--text-dim); text-transform: uppercase;
+    letter-spacing: .08em; margin-bottom: 12px; font-weight: 600;
+  }
+  .pv-body { font-size: 15px; line-height: 1.85; color: var(--text); }
+  .pv-body h3 { margin: 16px 0 6px; font-size: 16px; color: var(--text-strong); }
+  .pv-body code {
+    font-family: Consolas, monospace; font-size: 13px;
+    background: var(--card-2); padding: 1px 5px; border-radius: 4px;
+  }
+  .pv-bubble {
+    display: inline-block; background: var(--card-2);
+    padding: 7px 13px; border-radius: 12px; margin-top: 12px;
+    font-size: 15px;
+  }
+
+  .row { display: flex; gap: 12px; }
+  .row > * { flex: 1; }
+
+  /* 开关 */
+  .switch { display: flex; align-items: center; gap: 10px; cursor: pointer; }
+  .switch input { display: none; }
+  .track {
+    width: 40px; height: 23px; border-radius: 12px; background: #D8D0C0;
+    position: relative; transition: background .2s; flex-shrink: 0;
+  }
+  .track::after {
+    content: ''; position: absolute; top: 2px; left: 2px;
+    width: 19px; height: 19px; border-radius: 50%; background: #fff;
+    transition: transform .2s; box-shadow: 0 1px 3px rgba(0,0,0,.2);
+  }
+  .switch input:checked + .track { background: var(--accent); }
+  .switch input:checked + .track::after { transform: translateX(17px); }
+  .switch .sw-txt { font-size: 13px; color: var(--text-strong); font-weight: 600; }
+
+  /* 按钮 */
+  .actions { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+  button {
+    font-family: inherit; font-size: 14px; font-weight: 600;
+    padding: 10px 20px; border-radius: 8px; border: 1px solid transparent;
+    cursor: pointer; transition: all .15s;
+  }
+  .btn-primary { background: var(--accent); color: #fff; }
+  .btn-primary:hover { background: #7A4216; }
+  .btn-primary:disabled { background: #C9BBA8; cursor: not-allowed; }
+  .btn-ghost { background: transparent; color: var(--text); border-color: var(--line); }
+  .btn-ghost:hover { background: var(--card-2); }
+
+  /* 状态 */
+  .status { padding: 11px 14px; border-radius: 8px; font-size: 13px; margin-top: 16px; }
+  .status.ok { background: #4A7C3F14; color: var(--ok); border: 1px solid #4A7C3F33; }
+  .status.err { background: #A33A2A12; color: var(--err); border: 1px solid #A33A2A33; }
+  .status.warn { background: #B4701A12; color: var(--warn); border: 1px solid #B4701A33; }
+  .status.hide { display: none; }
+
+  .size-group { opacity: .4; pointer-events: none; transition: opacity .2s; }
+  .size-group.on { opacity: 1; pointer-events: auto; }
+
+  code.path {
+    font-family: Consolas, monospace; font-size: 12px;
+    background: var(--card-2); padding: 2px 6px; border-radius: 4px;
+    color: var(--text-dim); word-break: break-all;
+  }
+  .divider { height: 1px; background: var(--line); margin: 18px 0; border: 0; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>WorkBuddy 字体设置</h1>
+  <div class="sub">改完点「应用」，约 2 秒生效，无需重启 WorkBuddy。</div>
+
+  <!-- 字体 -->
+  <div class="card">
+    <h2>字体 <span class="tag" id="fontCount">载入中…</span></h2>
+
+    <label class="field">
+      <span class="lbl">正文字体</span>
+      <select id="fontFamily"></select>
+      <span class="hint" id="fontHint">从本机已安装字体中读取。列表里的名称即 CSS font-family，可直接使用。</span>
+    </label>
+
+    <label class="field">
+      <span class="lbl">代码 / 等宽字体</span>
+      <select id="fontFamilyMono"></select>
+      <span class="hint">代码块、终端等区域使用。</span>
+    </label>
+
+    <hr class="divider">
+
+    <div class="preview">
+      <div class="pv-label">实时预览</div>
+      <div class="pv-body" id="pvBody">
+        <h3>标题示例 Heading</h3>
+        <p>这是一段正文预览。汉字与 ABCdefg 混排，检验字重、字形与观感。<strong>这里是加粗文字。</strong></p>
+        <p>标点符号：，。、；：？！“”‘’（）《》——……</p>
+        <div class="pv-bubble" id="pvBubble">你的消息气泡示例</div>
+        <p style="margin-top:14px">代码：<code>const x = "中文";</code></p>
+      </div>
+    </div>
+  </div>
+
+  <!-- 字号行距 -->
+  <div class="card">
+    <h2>字号与行距 <span class="tag">可选</span></h2>
+
+    <div class="switch" style="margin-bottom:18px">
+      <input type="checkbox" id="overrideSize">
+      <span class="track"></span>
+      <span class="sw-txt">接管字号与行距</span>
+    </div>
+    <div class="hint" style="margin:-12px 0 18px">
+      默认关闭 —— 字号和行距跟随 WorkBuddy 自带的界面设置（在软件里调节即可）。
+      开启后下方数值生效，但会与软件自身的字号缩放冲突，一般不建议。
+    </div>
+
+    <div class="size-group" id="sizeGroup">
+      <div class="row">
+        <label class="field">
+          <span class="lbl">正文字号 (px)</span>
+          <input type="number" id="bodyPx" min="10" max="32" step="1">
+        </label>
+        <label class="field">
+          <span class="lbl">行高（倍数）</span>
+          <input type="number" id="lineHeight" min="1" max="3" step="0.05">
+        </label>
+      </div>
+      <label class="field">
+        <span class="lbl">字距 (em)</span>
+        <input type="number" id="letterSpacingEm" min="-0.05" max="0.5" step="0.01">
+        <span class="hint">0 为默认，0.01 略松。中文正文建议 0 ~ 0.02。</span>
+      </label>
+    </div>
+  </div>
+
+  <!-- 应用 -->
+  <div class="card">
+    <h2>应用</h2>
+    <div class="actions">
+      <button class="btn-primary" id="btnApply">应用设置</button>
+      <button class="btn-ghost" id="btnVerify">检查是否生效</button>
+      <button class="btn-ghost" id="btnRescan">重新扫描字体</button>
+    </div>
+    <div class="status hide" id="status"></div>
+  </div>
+
+  <div class="card">
+    <h2>说明</h2>
+    <div class="hint">
+      <p>配置文件：<code class="path" id="cfgPath">—</code></p>
+      <p>本页面通过本地 Node 服务（127.0.0.1，仅本机）读写配置并触发注入，不联网、不接触任何凭证。</p>
+      <p>改动保存后由常驻监视器检测并应用；若 WorkBuddy 未以调试端口启动，需先运行 <code class="path">setup-cdp.bat</code>。</p>
+    </div>
+  </div>
+</div>
+
+<script>
+const $ = (id) => document.getElementById(id);
+let FONTS = [];
+
+function cfgPath() { return $('cfgPath').textContent; }
+
+async function api(path, opts) {
+  const r = await fetch('/api/' + path, opts);
+  if (!r.ok) throw new Error('HTTP ' + r.status);
+  return r.json();
+}
+
+function showStatus(msg, kind) {
+  const el = $('status');
+  el.className = 'status ' + (kind || 'ok');
+  el.textContent = msg;
+  el.classList.remove('hide');
+}
+
+function hideStatus() { $('status').classList.add('hide'); }
+
+function fillSelect(sel, current, fallback) {
+  sel.innerHTML = '';
+  // 保留一个"恢复官方默认"选项
+  const def = document.createElement('option');
+  def.value = fallback;
+  def.textContent = '（官方默认）';
+  sel.appendChild(def);
+  FONTS.forEach((f) => {
+    const o = document.createElement('option');
+    o.value = f.family;
+    o.textContent = f.family + (f.styles.length ? '  [' + f.styles.join(', ') + ']' : '');
+    sel.appendChild(o);
+  });
+  if (current && FONTS.some((f) => f.family === current)) sel.value = current;
+  else if (current) {
+    const o = document.createElement('option');
+    o.value = current;
+    o.textContent = current + '（当前设置，未在扫描列表中）';
+    o.selected = true;
+    sel.appendChild(o);
+  }
+}
+
+function updatePreview() {
+  const fam = $('fontFamily').value;
+  const famMono = $('fontFamilyMono').value;
+  const body = $('pvBody');
+  const bubble = $('pvBubble');
+
+  const stack = (f) => f === "-apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', sans-serif"
+    ? f : '"' + f + '", -apple-system, "PingFang SC", sans-serif';
+
+  body.style.fontFamily = stack(fam);
+  bubble.style.fontFamily = stack(fam);
+
+  const codeEl = body.querySelector('code');
+  if (codeEl) codeEl.style.fontFamily = stack(famMono);
+
+  const on = $('overrideSize').checked;
+  document.getElementById('sizeGroup').classList.toggle('on', on);
+  if (on) {
+    body.style.fontSize = $('bodyPx').value + 'px';
+    body.style.lineHeight = $('lineHeight').value;
+    body.style.letterSpacing = $('letterSpacingEm').value + 'em';
+    bubble.style.fontSize = $('bodyPx').value + 'px';
+    bubble.style.lineHeight = $('lineHeight').value;
+  } else {
+    body.style.fontSize = '';
+    body.style.lineHeight = '';
+    body.style.letterSpacing = '';
+    bubble.style.fontSize = '';
+    bubble.style.lineHeight = '';
+  }
+}
+
+async function load() {
+  try {
+    $('cfgPath').textContent = await api('path').then((r) => r.configPath);
+  } catch (e) {}
+  try {
+    const d = await api('fonts');
+    FONTS = d.fonts || [];
+    $('fontCount').textContent = d.count + ' 个可用';
+    const cfg = await api('config');
+    fillSelect($('fontFamily'), cfg.font.fontFamily, "-apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', sans-serif");
+    fillSelect($('fontFamilyMono'), cfg.font.fontFamilyMono, 'Consolas');
+    $('overrideSize').checked = !!cfg.overrideSize;
+    $('bodyPx').value = cfg.size.bodyPx;
+    $('lineHeight').value = cfg.size.lineHeight;
+    $('letterSpacingEm').value = cfg.size.letterSpacingEm;
+    updatePreview();
+  } catch (e) {
+    showStatus('无法连接本地服务：' + e.message + '（请用 settings.bat 启动）', 'err');
+  }
+}
+
+async function apply() {
+  const btn = $('btnApply');
+  btn.disabled = true;
+  btn.textContent = '应用中…';
+  try {
+    const payload = {
+      enabled: true,
+      overrideSize: $('overrideSize').checked,
+      font: {
+        fontFamily: $('fontFamily').value,
+        fontFamilyMono: $('fontFamilyMono').value,
+      },
+      size: {
+        bodyPx: parseFloat($('bodyPx').value) || 17,
+        lineHeight: parseFloat($('lineHeight').value) || 1.9,
+        letterSpacingEm: parseFloat($('letterSpacingEm').value) || 0,
+      },
+    };
+    const r = await api('apply', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload),
+    });
+    if (r.ok) {
+      showStatus('已应用：' + (r.injectedTargets || 0) + ' 个页面已更新。约 2 秒后界面生效。', 'ok');
+    } else {
+      showStatus('配置已保存，但注入未完成：' + (r.message || '未知原因') +
+        '。若 WorkBuddy 未以调试端口启动，请先运行 setup-cdp.bat 并用它启动。', 'warn');
+    }
+  } catch (e) {
+    showStatus('应用失败：' + e.message, 'err');
+  } finally {
+    btn.disabled = false;
+    btn.textContent = '应用设置';
+  }
+}
+
+$('btnApply').addEventListener('click', apply);
+$('btnRescan').addEventListener('click', async () => {
+  showStatus('正在扫描字体…', 'ok');
+  try {
+    const d = await api('rescan');
+    FONTS = d.fonts || [];
+    $('fontCount').textContent = d.count + ' 个可用';
+    const cur = $('fontFamily').value;
+    fillSelect($('fontFamily'), cur, "-apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', sans-serif");
+    fillSelect($('fontFamilyMono'), $('fontFamilyMono').value, 'Consolas');
+    showStatus('扫描完成：' + d.count + ' 个字体家族', 'ok');
+  } catch (e) { showStatus('扫描失败：' + e.message, 'err'); }
+});
+
+$('btnVerify').addEventListener('click', async () => {
+  try {
+    const r = await api('verify');
+    if (!r.reachable) { showStatus('连不上 WorkBuddy 调试端口。', 'err'); return; }
+    const s = r.samples || [];
+    if (!s.length) { showStatus('未找到正文元素，无法验证。', 'warn'); return; }
+    const lines = s.map((x) => x.sel + ' → ' + x.fontFamily + ' / ' + x.fontSize + ' / ' + x.lineHeight);
+    const ok = r.styleInjected;
+    showStatus((ok ? '插件已注入。当前实际样式：' : '未检测到插件样式（可能被清理了，试试重新应用）') + '\n' + lines.join('\n'),
+      ok ? 'ok' : 'warn');
+  } catch (e) { showStatus('验证失败：' + e.message, 'err'); }
+});
+
+['fontFamily', 'fontFamilyMono', 'overrideSize', 'bodyPx', 'lineHeight', 'letterSpacingEm']
+  .forEach((id) => {
+    $(id).addEventListener('change', updatePreview);
+    $(id).addEventListener('input', updatePreview);
+  });
+
+load();
+</script>
+</body>
+</html>

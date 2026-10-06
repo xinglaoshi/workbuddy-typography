@@ -1,0 +1,21 @@
+# 忽略本地生成物与个人配置
+config.local.json
+font-list.json
+typography.css
+watcher-log.txt
+server-log.txt
+*.log
+
+# 生成的启动器（含本机 WorkBuddy 绝对路径）
+Start WorkBuddy.cmd
+
+# 编辑器 / 系统
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+*.tmp
+
+# 备份
+*.bak
+*.old
